@@ -1,3 +1,5 @@
+# BookStudio: python -m pip install -r requirements.txt
+# Audiobooks
 edge-tts
 beautifulsoup4
 lxml
@@ -8,3 +10,16 @@ langdetect
 mutagen
 deep-translator
 pillow
+# Interface
+rich
+questionary
+# E-books (ler, converter, detectar o idioma, guardar chaves de API)
+pymupdf
+lingua-language-detector
+charset-normalizer
+platformdirs
+keyring
+httpx
+# Opcionais, instalados pelo próprio app quando a função é usada:
+#   litellm         tradução com IA (Claude, GPT, Gemini, DeepSeek, Ollama...)
+#   faster-whisper  texto sincronizado e e-book a partir do áudio

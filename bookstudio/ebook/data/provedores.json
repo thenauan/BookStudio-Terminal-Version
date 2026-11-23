@@ -1,0 +1,72 @@
+{
+  "_comentario": "Lista de provedores e modelos sugeridos. Os nomes mudam com o tempo: edite este arquivo para adicionar ou trocar modelos. 'recomendado' marca com estrela os de melhor custo-benefício para livros. O nome do modelo segue o formato do LiteLLM (provedor/modelo).",
+  "provedores": {
+    "anthropic": {
+      "nome": "Anthropic (Claude)",
+      "env": "ANTHROPIC_API_KEY",
+      "site_chave": "https://console.anthropic.com/settings/keys",
+      "modelos": [
+        {"id": "anthropic/claude-haiku-5-5", "nome": "Claude Haiku 5.5", "recomendado": true},
+        {"id": "anthropic/claude-sonnet-5-5", "nome": "Claude Sonnet 5.5"}
+      ]
+    },
+    "openai": {
+      "nome": "OpenAI (GPT)",
+      "env": "OPENAI_API_KEY",
+      "site_chave": "https://platform.openai.com/api-keys",
+      "modelos": [
+        {"id": "openai/gpt-5-mini", "nome": "GPT-5 mini", "recomendado": true},
+        {"id": "openai/gpt-5", "nome": "GPT-5"}
+      ]
+    },
+    "gemini": {
+      "nome": "Google Gemini",
+      "env": "GEMINI_API_KEY",
+      "site_chave": "https://aistudio.google.com/apikey",
+      "modelos": [
+        {"id": "gemini/gemini-3.8-flash", "nome": "Gemini 3.8 Flash", "recomendado": true},
+        {"id": "gemini/gemini-3.5-flash-lite", "nome": "Gemini 3.5 Flash-Lite (mais barato)"},
+        {"id": "gemini/gemini-2.5-flash-lite", "nome": "Gemini 2.5 Flash-Lite"}
+      ]
+    },
+    "deepseek": {
+      "nome": "DeepSeek",
+      "env": "DEEPSEEK_API_KEY",
+      "site_chave": "https://platform.deepseek.com/api_keys",
+      "modelos": [
+        {"id": "deepseek/deepseek-chat", "nome": "DeepSeek Chat", "recomendado": true}
+      ]
+    },
+    "mistral": {
+      "nome": "Mistral",
+      "env": "MISTRAL_API_KEY",
+      "site_chave": "https://console.mistral.ai/api-keys",
+      "modelos": [
+        {"id": "mistral/mistral-small-latest", "nome": "Mistral Small", "recomendado": true},
+        {"id": "mistral/mistral-large-latest", "nome": "Mistral Large"}
+      ]
+    },
+    "openrouter": {
+      "nome": "OpenRouter (uma chave, muitos modelos)",
+      "env": "OPENROUTER_API_KEY",
+      "site_chave": "https://openrouter.ai/keys",
+      "modelos": [
+        {"id": "openrouter/google/gemini-2.5-flash", "nome": "Gemini 2.5 Flash via OpenRouter", "recomendado": true}
+      ]
+    },
+    "ollama": {
+      "nome": "Ollama (local, grátis, sem chave)",
+      "env": null,
+      "sem_chave": true,
+      "api_base": "http://localhost:11434",
+      "modelos": []
+    },
+    "custom": {
+      "nome": "Outro compatível com OpenAI (informe a URL)",
+      "env": null,
+      "prefixo": "openai/",
+      "pede_url": true,
+      "modelos": []
+    }
+  }
+}
