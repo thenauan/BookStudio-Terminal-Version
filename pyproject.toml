@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 # O nome do pacote continua o da versão 1.x para o "pipx upgrade" de quem já instalou seguir funcionando
 name = "audiobook-generator-terminal"
-version = "2.0.0"
+version = "2.0.1"
 description = "BookStudio: create audiobooks, translate and convert e-books (EPUB, PDF, MOBI, AZW3, DOCX...) and generate synced text, in the terminal."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -187,8 +187,12 @@ def _atualizar_pacote(release):
             else:
                 with tarfile.open(fileobj=io.BytesIO(dados), mode="r:gz") as t:
                     t.extractall(tmp, filter="data") if hasattr(tarfile, "data_filter") else t.extractall(tmp)
-            raiz = os.path.join(tmp, "audiobook-generator-terminal")
-            if not os.path.isfile(os.path.join(raiz, "audiobook_cli.py")):
+            # A pasta de dentro do pacote se chama "audiobook-generator-terminal" (o nome que as versões 1.x
+            # procuram) ou "BookStudio"; vale a que tiver o app
+            raiz = next((os.path.join(tmp, n) for n in ("BookStudio", "audiobook-generator-terminal")
+                         if os.path.isfile(os.path.join(tmp, n, "bookstudio", "app.py"))
+                         or os.path.isfile(os.path.join(tmp, n, "audiobook_cli.py"))), None)
+            if raiz is None:
                 return "erro"
             for pasta, _, arquivos in os.walk(raiz):
                 destino = os.path.join(BASE, os.path.relpath(pasta, raiz))

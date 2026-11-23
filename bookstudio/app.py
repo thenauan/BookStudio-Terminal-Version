@@ -88,9 +88,10 @@ def avisar_atualizacao(verificacao, sem_perguntas):
 
 # Arquivos que a versão 1.x deixava na pasta principal; a atualização por pacote copia os novos por cima sem
 # apagar nada, então eles são removidos aqui (só fora de um clone do git, que cuida disso sozinho)
-SOBRAS_1X = ["ui.py", "i18n.py", "atualizacao.py", "gerar_idiomas.py", "__init__.py", "requirements-dev.txt",
-             "Audiobook Generator (terminal).bat", "Audiobook Generator (terminal).command", "audiobook-cli.sh"]
-PASTAS_1X = ["motor", "dados"]
+SOBRAS_1X = ["ui.py", "i18n.py", "atualizacao.py", "gerar_idiomas.py", "atualizar_motor.py", "__init__.py",
+             "requirements-dev.txt", "Audiobook Generator (terminal).bat", "Audiobook Generator (terminal).command",
+             "audiobook-cli.sh"]
+PASTAS_1X = ["motor", "dados", "__pycache__"]
 
 
 def limpar_sobras():
