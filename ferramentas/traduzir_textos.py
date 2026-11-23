@@ -16,6 +16,8 @@ from bookstudio.ebook.translate.google import _direto  # noqa: E402
 PASTA = AQUI.parent / "bookstudio" / "dados" / "i18n"
 GOOGLE = {"zh": "zh-CN"}
 todos = "--todos" in sys.argv
+# --chaves a,b,c: traduz de novo só essas (textos que mudaram)
+refazer = set(sys.argv[sys.argv.index("--chaves") + 1].split(",")) if "--chaves" in sys.argv else set()
 
 
 def proteger(s):
@@ -34,7 +36,7 @@ def restaurar(s, marcas):
 for arq in sorted(PASTA.glob("*.json")):
     lang = arq.stem
     dados = json.loads(arq.read_text(encoding="utf-8"))
-    pendentes = {k: v for k, v in TEXTOS.items() if todos or k not in dados or k in ("app_tagline", "cli_description")}
+    pendentes = {k: v for k, v in TEXTOS.items() if todos or k not in dados or k in refazer}
     if lang in ("pt", "en"):
         for k, (pt, en) in pendentes.items():
             dados[k] = pt if lang == "pt" else en

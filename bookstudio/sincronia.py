@@ -167,11 +167,12 @@ def _relatar(final, pedido):
 
 def gerar_texto(config, modo=None, audio=None, ebook=None):
     """Texto sincronizado para um audiobook que já existe. `modo`: "audio", "ambos" ou "texto" (pergunta se None)."""
+    if modo is None:  # primeiro o modo: as três formas ficam à vista antes de escolher os arquivos
+        icone = (lambda e: f"{e} ") if ui.EMOJI else (lambda e: "")
+        modo = ui.menu(t("sy_how_q"), [(icone("📖🎧") + t("sy_mode_both"), "ambos", t("sy_mode_both_desc")),
+                                       (icone("🎧") + t("sy_mode_audio"), "audio", t("sy_mode_audio_desc")),
+                                       (icone("📖") + t("sy_mode_text"), "texto", t("sy_mode_text_desc"))])
     audio = Path(audio) if audio else escolher_audio()
-    if modo is None:
-        modo = ui.menu(t("sy_how_q"), [(t("sy_mode_both"), "ambos", t("sy_mode_both_desc")),
-                                       (t("sy_mode_audio"), "audio", t("sy_mode_audio_desc")),
-                                       (t("sy_mode_text"), "texto", t("sy_mode_text_desc"))])
     if modo in ("audio", "ambos"):
         ui.alerta(t("sy_ai_warning"))
         if not _tem_whisper() and not _instalar_whisper():
