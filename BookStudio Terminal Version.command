@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# macOS: dois cliques no Finder abrem o BookStudio no Terminal
+# macOS: dois cliques no Finder abrem o BookStudio Terminal Version no Terminal
 cd "$(dirname "$0")" || exit 1
 ./bookstudio.sh "$@"
 status=$?

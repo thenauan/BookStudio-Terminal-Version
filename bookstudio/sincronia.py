@@ -68,14 +68,14 @@ def _titulo_autor(audio):
         return audio.stem, ""
 
 
-def rodar(pedido, titulo, id_pausado=None):
+def rodar(pedido, titulo, id_pausado=None, modulo="bookstudio.sincronia_motor", tipo="sincronia"):
     """Roda o motor de sincronia com o painel de progresso. Devolve o evento final ("done"/"error") ou
     {"type": "paused"} / {"type": "cancelled"}."""
     arq = os.path.join(tempfile.gettempdir(), f"bookstudio_sync_{uuid.uuid4().hex[:8]}.json")
     json.dump(pedido, open(arq, "w", encoding="utf-8"), ensure_ascii=False)
     grupo = {"creationflags": 0x00000200} if os.name == "nt" else {"start_new_session": True}
     raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    proc = subprocess.Popen([sys.executable, "-u", "-m", "bookstudio.sincronia_motor", arq], cwd=raiz, stdin=subprocess.PIPE,
+    proc = subprocess.Popen([sys.executable, "-u", "-m", modulo, arq], cwd=raiz, stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", errors="replace",
                             env=dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUTF8="1"), **grupo)
     erros = []
@@ -90,7 +90,10 @@ def rodar(pedido, titulo, id_pausado=None):
             except ValueError:
                 continue
             if ev.get("type") == "progress":
-                feito = f"{ui.tempo(ev['done'])} / {ui.tempo(ev['total'])} {t('sy_of_audio')}" if ev.get("total") else ""
+                if ev.get("unit"):  # contagem (capítulos separados, codificados...)
+                    feito = f"{ev['done']}/{ev['total']} {t(ev['unit'])}"
+                else:  # tempo do áudio já processado
+                    feito = f"{ui.tempo(ev['done'])} / {ui.tempo(ev['total'])} {t('sy_of_audio')}" if ev.get("total") else ""
                 painel.atualizar("s", pct=float(ev.get("pct") or 0), partes=feito)
             elif ev.get("type") == "stage":
                 painel.atualizar("s", etapa=t(ev["code"], *(ev.get("args") or [])))
@@ -126,7 +129,7 @@ def rodar(pedido, titulo, id_pausado=None):
         except OSError:
             pass
     if acao == "pause":
-        trabalhos.pausar("sincronia", titulo, {"pedido": pedido}, id_pausado)
+        trabalhos.pausar(tipo, titulo, {"pedido": pedido, "modulo": modulo}, id_pausado)
         painel.atualizar("s", fim="erro", etapa=t("paused"))
         painel.retomar()
         ui.painel([t("sy_paused_saved"), t("paused_resume_hint")], titulo=t("paused"), cor="yellow")
@@ -217,6 +220,7 @@ def gerar_ebook(config):
 
 def retomar(trabalho):
     pedido = trabalho["dados"]["pedido"]
-    ui.dica(t("sy_resume_restarts"))
-    final = rodar(pedido, trabalho.get("titulo") or "", trabalho["id"])
+    modulo = trabalho["dados"].get("modulo", "bookstudio.sincronia_motor")
+    ui.dica(t("sy_resume_restarts") if trabalho["tipo"] == "sincronia" else t("ca_resume_restarts"))
+    final = rodar(pedido, trabalho.get("titulo") or "", trabalho["id"], modulo, trabalho["tipo"])
     return _relatar(final, pedido)

@@ -24,7 +24,8 @@ def emitir(**evento):
 
 
 def capitulos_do_audio(audio):
-    """[(título, início, fim)] dos capítulos gravados no arquivo (M4B/MP4, MP3 com CHAP); [] se não houver."""
+    """[(título, início, fim)] dos capítulos gravados no arquivo: M4B/MP4, MP3 e WAV (CHAP do ID3), Opus e FLAC
+    (CHAPTER001=00:00:00.000 + CHAPTER001NAME). [] se não houver."""
     try:
         import mutagen
         from mutagen.mp4 import MP4
@@ -35,8 +36,21 @@ def capitulos_do_audio(audio):
             return [(c.title, float(c.start), float(caps[i + 1].start) if i + 1 < len(caps) else dur) for i, c in enumerate(caps)]
         arq = mutagen.File(audio)
         tags = getattr(arq, "tags", None)
-        chaps = sorted([f for k, f in (tags.items() if tags else []) if k.startswith("CHAP")], key=lambda c: c.start_time)
-        return [(str(c.sub_frames.get("TIT2", "")) or f"{i + 1}", c.start_time / 1000, c.end_time / 1000) for i, c in enumerate(chaps)]
+        dur = float(getattr(arq.info, "length", 0) or 0)
+        if tags is not None and hasattr(tags, "getall"):  # ID3 (MP3, WAV)
+            chaps = sorted(tags.getall("CHAP"), key=lambda c: c.start_time)
+            return [(str(c.sub_frames.get("TIT2", "")) or f"{i + 1}", c.start_time / 1000, c.end_time / 1000) for i, c in enumerate(chaps)]
+        # Vorbis (Opus, FLAC): CHAPTER001=hh:mm:ss.mmm e CHAPTER001NAME=título
+        valores = {k.upper(): (v[0] if isinstance(v, list) else v) for k, v in (tags.items() if tags else [])}
+        inicios = []
+        for k, v in valores.items():
+            m = re.fullmatch(r"CHAPTER(\d+)", k)
+            t = re.fullmatch(r"(\d+):(\d+):(\d+(?:\.\d+)?)", str(v).strip())
+            if m and t:
+                inicios.append((int(m.group(1)), int(t.group(1)) * 3600 + int(t.group(2)) * 60 + float(t.group(3)),
+                                str(valores.get(f"CHAPTER{m.group(1)}NAME", "")) or m.group(1)))
+        inicios.sort()
+        return [(nome, ini, inicios[i + 1][1] if i + 1 < len(inicios) else dur) for i, (_, ini, nome) in enumerate(inicios)]
     except Exception:  # noqa: BLE001
         return []
 

@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 # O nome do pacote continua o da versão 1.x para o "pipx upgrade" de quem já instalou seguir funcionando
 name = "audiobook-generator-terminal"
-version = "2.0.2"
-description = "BookStudio: create audiobooks, translate and convert e-books (EPUB, PDF, MOBI, AZW3, DOCX...) and generate synced text, in the terminal."
+version = "2.1.0"
+description = "BookStudio Terminal Version: create audiobooks, translate and convert e-books (EPUB, PDF, MOBI, AZW3, DOCX...) and generate synced text, in the terminal."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "thenauan" }]
@@ -29,7 +29,7 @@ ia = ["litellm"]
 transcricao = ["faster-whisper"]
 
 [project.urls]
-Homepage = "https://github.com/thenauan/BookStudio"
+Homepage = "https://github.com/thenauan/BookStudio-Terminal-Version"
 
 [project.scripts]
 bookstudio = "bookstudio.app:executar"

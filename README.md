@@ -1,8 +1,8 @@
-# BookStudio
+# BookStudio Terminal Version
 
 **Audiobooks, e-book translation and conversion, and synced text — in the terminal, on Windows, macOS and Linux.**
 
-BookStudio is the new name of **Audiobook Generator (terminal edition)**, now merged with **Ebook Studio**. One app, one menu:
+BookStudio Terminal Version is the new name of **Audiobook Generator (terminal edition)**, now merged with **Ebook Studio**. One app, one menu:
 
 | | What it does |
 |---|---|
@@ -11,6 +11,7 @@ BookStudio is the new name of **Audiobook Generator (terminal edition)**, now me
 | 📝 **Generate synced text** | For an audiobook you already have: with the **audio and the e-book** (most accurate), **audio only** (AI transcription) or **text only** (no AI, approximate). |
 | 🌍 **Translate and generate synced text** | Translates the e-book into the audiobook's language and aligns the two. |
 | 📖 **Generate an e-book from an audiobook** | AI transcribes the audio into an e-book, one chapter per audio chapter. |
+| 🔁 **Convert an audiobook's format** | M4B ⇄ MP3 ⇄ Opus ⇄ FLAC ⇄ WAV ⇄ one MP3 per chapter, keeping chapters, cover, metadata and synced text. |
 | 🔄 **Convert an e-book's format** | EPUB, PDF, TXT and, with [Calibre](https://calibre-ebook.com), MOBI, AZW3, DOCX, FB2, RTF, ODT. |
 | 🌐 **Translate an e-book** | Keeps chapters, headings, italics, bold, links and images (EPUB), in the same format or another one. |
 | ✏️ **Edit metadata** | Title, author, series, publisher, year, genres, ISBN, language, description. |
@@ -19,7 +20,7 @@ The interface speaks **English, Spanish, Portuguese, Russian, Arabic, French, It
 
 ```
 ╭───────────────────────────────────────────────────╮
-│   📚  BookStudio  v2.0.0                          │
+│   📚  BookStudio Terminal Version  v2.1.0         │
 │   Audiobooks, e-book translation and conversion,  │
 │   and synced text, in the terminal                │
 ╰───────────────────────────────────────────────────╯
@@ -36,7 +37,7 @@ You need **Python 3.10+**. **FFmpeg** is recommended: without it, audiobooks onl
 
 ### Download
 
-Get the latest version from **[Releases](https://github.com/thenauan/BookStudio/releases/latest)** (`.zip` for Windows, `.tar.gz` for macOS and Linux) and unzip it anywhere. The first time it opens, BookStudio checks its Python libraries and offers to install the missing ones.
+Get the latest version from **[Releases](https://github.com/thenauan/BookStudio-Terminal-Version/releases/latest)** (`.zip` for Windows, `.tar.gz` for macOS and Linux) and unzip it anywhere. The first time it opens, BookStudio checks its Python libraries and offers to install the missing ones.
 
 | System | Python and FFmpeg |
 |---|---|
@@ -49,7 +50,7 @@ Get the latest version from **[Releases](https://github.com/thenauan/BookStudio/
 ### Or with pipx (one command)
 
 ```bash
-pipx install git+https://github.com/thenauan/BookStudio.git
+pipx install git+https://github.com/thenauan/BookStudio-Terminal-Version.git
 bookstudio
 ```
 
@@ -58,8 +59,8 @@ Update with `pipx upgrade audiobook-generator-terminal` (the package keeps its o
 ### Or clone
 
 ```bash
-git clone https://github.com/thenauan/BookStudio.git
-cd BookStudio
+git clone https://github.com/thenauan/BookStudio-Terminal-Version.git
+cd BookStudio-Terminal-Version
 python -m pip install -r requirements.txt
 ```
 
@@ -72,8 +73,8 @@ Two heavy libraries are optional and installed by the app only when you use the 
 
 | System | How to start |
 |---|---|
-| **Windows** | double-click `BookStudio.bat` |
-| **macOS** | double-click `BookStudio.command`, or run `./bookstudio.sh` in Terminal |
+| **Windows** | double-click `BookStudio Terminal Version.bat` |
+| **macOS** | double-click `BookStudio Terminal Version.command`, or run `./bookstudio.sh` in Terminal |
 | **Linux** | `./bookstudio.sh` |
 | **Installed with pipx/pip** | `bookstudio` |
 | **Any** | `python -m bookstudio` |
@@ -198,7 +199,7 @@ When it opens, BookStudio checks GitHub for a new version in the background. If 
 ## For developers
 
 ```
-BookStudio.bat / .command / bookstudio.sh   launchers
+BookStudio Terminal Version.bat / .command, bookstudio.sh   launchers
 bookstudio/app.py                           menu, arguments, resuming paused jobs
 bookstudio/ui.py                            look: Rich panels, questionary menus, progress panel, time estimate
 bookstudio/audiobook/                       audiobook flow (books, choices, engine runner)

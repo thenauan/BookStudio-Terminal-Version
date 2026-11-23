@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# BookStudio no terminal (macOS e Linux): ./bookstudio.sh [livros...] [-o pasta] [--lang xx]
+# BookStudio Terminal Version (macOS e Linux): ./bookstudio.sh [livros...] [-o pasta] [--lang xx]
 cd "$(dirname "$0")" || exit 1
 
 PYTHON=""

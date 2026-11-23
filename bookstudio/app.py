@@ -1,4 +1,4 @@
-"""BookStudio: ponto de entrada, argumentos e menu principal.
+"""BookStudio Terminal Version: ponto de entrada, argumentos e menu principal.
 
     bookstudio                      abre o menu (criar audiobook, traduzir, converter, texto sincronizado...)
     bookstudio livro.epub [...]     cria o audiobook direto, como o antigo Audiobook Generator de terminal
@@ -90,7 +90,7 @@ def avisar_atualizacao(verificacao, sem_perguntas):
 # apagar nada, então eles são removidos aqui (só fora de um clone do git, que cuida disso sozinho)
 SOBRAS_1X = ["ui.py", "i18n.py", "atualizacao.py", "gerar_idiomas.py", "atualizar_motor.py", "__init__.py",
              "requirements-dev.txt", "Audiobook Generator (terminal).bat", "Audiobook Generator (terminal).command",
-             "audiobook-cli.sh"]
+             "audiobook-cli.sh", "BookStudio.bat", "BookStudio.command"]
 PASTAS_1X = ["motor", "dados", "__pycache__"]
 
 
@@ -142,6 +142,7 @@ OPCOES = [
     ("texto", "📝", "menu_sync", "menu_sync_desc"),
     ("traduzir_texto", "🌍", "menu_translate_sync", "menu_translate_sync_desc"),
     ("ebook_audio", "📖", "menu_ebook_from_audio", "menu_ebook_from_audio_desc"),
+    ("converter_audio", "🔁", "menu_convert_audio", "menu_convert_audio_desc"),
     ("converter", "🔄", "menu_convert", "menu_convert_desc"),
     ("traduzir", "🌐", "menu_translate", "menu_translate_desc"),
     ("metadados", "✏️", "menu_metadata", "menu_metadata_desc"),
@@ -169,7 +170,7 @@ def _retomar_pendentes(args, config, settings, store):
     opcoes = []
     for tipo, j in lista[:8]:
         if tipo == "audio":
-            icone = "🎧" if j["tipo"] == "audiobook" else "📝"
+            icone = {"audiobook": "🎧", "conversao_audio": "🔁"}.get(j["tipo"], "📝")
             opcoes.append((f"{_ic(icone)} {j['titulo']}", (tipo, j), t("paused_" + j["tipo"])))
         else:
             ident, params = j
@@ -224,6 +225,9 @@ def _executar_opcao(opcao, args, config, settings, store):
             sincronia.gerar_texto(config, modo=modo, audio=audio, ebook=saida)
     elif opcao == "ebook_audio":
         sincronia.gerar_ebook(config)
+    elif opcao == "converter_audio":
+        from bookstudio.conversao_audio import converter_audiobook
+        converter_audiobook(config)
     elif opcao == "converter":
         fluxos.fluxo(fluxos.CONVERTER, settings, store)
     elif opcao == "traduzir":
